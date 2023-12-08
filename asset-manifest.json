@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/chatbot.github.io/static/css/main.b93ccd9c.css",
+    "main.js": "/chatbot.github.io/static/js/main.5a2d54af.js",
+    "index.html": "/chatbot.github.io/index.html",
+    "main.b93ccd9c.css.map": "/chatbot.github.io/static/css/main.b93ccd9c.css.map",
+    "main.5a2d54af.js.map": "/chatbot.github.io/static/js/main.5a2d54af.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b93ccd9c.css",
+    "static/js/main.5a2d54af.js"
+  ]
+}
