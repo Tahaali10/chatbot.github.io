@@ -1,9 +1,13 @@
-import { LuSendHorizonal } from "react-icons/lu";
-import { useState } from "react";
+import { LuSendHorizonal } from 'react-icons/lu';
+import { useState } from 'react';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 
-const Popup = ({ onClose }) => {
-  const [course, setCourse] = useState("");
+const Popup = ({ onClose, onResponse }) => {
+  const [course, setCourse] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showDownloadButton, setShowDownloadButton] = useState(false);
+  const [pdfUrl, setPdfUrl] = useState('');
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
@@ -11,12 +15,13 @@ const Popup = ({ onClose }) => {
     try {
       setLoading(true);
 
+      // Simulate fetching data from Chatbase API
       const chatbaseEndpoint = 'https://www.chatbase.co/api/v1/chat';
       const chatbotId = 'YOWjRvRoWkd3BHIDzNd51'; // Replace with your actual Chatbot ID
       const apiKey = '272f571d-4481-4c88-a100-1368bf7a7443'; // Replace with your actual API Key
 
       const headers = {
-        'Authorization': `Bearer ${apiKey}`,
+        Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       };
 
@@ -43,34 +48,42 @@ const Popup = ({ onClose }) => {
         throw new Error(`Chatbase API error: ${errorData.message}`);
       }
 
-      // Ensure that the response is a PDF
-      const contentType = response.headers.get('content-type');
-      if (contentType === 'application/pdf') {
-        const data = await response.blob();
+      const data = await response.json();
+      onResponse(data);
 
-        // Dynamically generate a filename based on the current timestamp
-        const timestamp = new Date().getTime();
-        const filename = `response_${timestamp}.pdf`;
+      // Capture the HTML content of the response
+      const responseElement = document.createElement('div');
+      responseElement.innerHTML = data.messages
+        .map((message) => `<p>${message.content}</p>`)
+        .join('');
 
-        var fileURL = URL.createObjectURL(data);
-        var fileLink = document.createElement('a');
-        fileLink.href = fileURL;
-        fileLink.download = filename;
-        document.body.appendChild(fileLink);
-        fileLink.click();
-        document.body.removeChild(fileLink);
-        console.log('PDF Downloaded successfully');
-      } else {
-        // Handle non-PDF response
-        const errorData = await response.json();
-        console.error(`Chatbase API returned non-PDF response: ${JSON.stringify(errorData)}`);
-      }
-    } catch (error) {
-      console.error('Chatbase API error:', error.message);
-    } finally {
+      // Use html2canvas to create a canvas from the HTML content
+      const canvas = await html2canvas(responseElement);
+
+      // Generate a PDF from the canvas using jsPDF
+      const pdf = new jsPDF();
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0);
+      const pdfBlob = pdf.output('blob');
+      const url = URL.createObjectURL(pdfBlob);
+
+      // Set the PDF URL and show the download button
+      setPdfUrl(url);
+      setShowDownloadButton(true);
+
       setLoading(false);
-      onClose();
+    } catch (error) {
+      console.error('Error:', error.message);
+      setLoading(false);
     }
+  };
+
+  const handleDownloadPDF = () => {
+    const link = document.createElement('a');
+    link.href = pdfUrl;
+    link.download = 'chatbot_response.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
@@ -78,19 +91,26 @@ const Popup = ({ onClose }) => {
       <div className="popup-close">
         <button onClick={onClose}>x</button>
       </div>
-      <h5 className="popup-heading">Enter A Course Name</h5>
-      <form onSubmit={handleSendMessage}>
-        <input
-          type="text"
-          value={course}
-          onChange={(e) => setCourse(e.target.value)}
-          placeholder="Enter a query"
-          required
-        />
-        <span className="send-arrow" onClick={handleSendMessage}>
-          <LuSendHorizonal style={{ color: "blue", backgroundColor: "blue", padding: "5px" }} />
-        </span>
-      </form>
+      <div className="course-sec">
+        <h5 className="popup-heading">Enter A Course Name</h5>
+        <form onSubmit={handleSendMessage}>
+          <input
+            type="text"
+            value={course}
+            onChange={(e) => setCourse(e.target.value)}
+            placeholder="Enter a query"
+            required
+          />
+          <span className="send-arrow" onClick={handleSendMessage}>
+            <LuSendHorizonal style={{ color: 'blue', backgroundColor: 'blue', padding: '5px' }} />
+          </span>
+        </form>
+      </div>
+      {showDownloadButton && (
+        <div>
+          <button onClick={handleDownloadPDF}>Download as PDF</button>
+        </div>
+      )}
     </div>
   );
 };

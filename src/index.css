@@ -212,12 +212,12 @@ header .user .userimg h2 {}
 
 /* Popup  */
 .popup {
-  margin-left: 500px;
-  padding: 12px;
+  margin-left: 130px;
+  padding: 2px;
   margin-top: -40px;
-  width: 350px;
-  height: 20vh;
-  border: 2px solid #fff;  /* background-color: aliceblue;*/
+  width: 500px;
+  height: 10vh;
+  border: 1px solid #fff; 
   border-radius: 10px;
 }
 
@@ -231,17 +231,18 @@ header .user .userimg h2 {}
 .popup-close button {
   background: none;
   border: none;
-  font-size: 16px;
+  font-size: 15px;
   cursor: pointer;
   color: #333;
   font-weight: bold;
   outline: none;
+margin-top: -1px;
 }
 
 .popup-heading {
   font-weight: 600;
-  font-size: 15px;
-  margin: 3px;
+  font-size: 12px;
+  margin-top: -35px;
 }
 
 .popup form {
