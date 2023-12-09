@@ -1,13 +1,17 @@
 {
   "files": {
-    "main.css": "/chatbot.github.io/static/css/main.b93ccd9c.css",
-    "main.js": "/chatbot.github.io/static/js/main.5a2d54af.js",
+    "main.css": "/chatbot.github.io/static/css/main.0953b0ff.css",
+    "main.js": "/chatbot.github.io/static/js/main.fb9ac296.js",
+    "static/js/703.44e0649b.chunk.js": "/chatbot.github.io/static/js/703.44e0649b.chunk.js",
+    "static/js/379.15a3b18a.chunk.js": "/chatbot.github.io/static/js/379.15a3b18a.chunk.js",
     "index.html": "/chatbot.github.io/index.html",
-    "main.b93ccd9c.css.map": "/chatbot.github.io/static/css/main.b93ccd9c.css.map",
-    "main.5a2d54af.js.map": "/chatbot.github.io/static/js/main.5a2d54af.js.map"
+    "main.0953b0ff.css.map": "/chatbot.github.io/static/css/main.0953b0ff.css.map",
+    "main.fb9ac296.js.map": "/chatbot.github.io/static/js/main.fb9ac296.js.map",
+    "703.44e0649b.chunk.js.map": "/chatbot.github.io/static/js/703.44e0649b.chunk.js.map",
+    "379.15a3b18a.chunk.js.map": "/chatbot.github.io/static/js/379.15a3b18a.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.b93ccd9c.css",
-    "static/js/main.5a2d54af.js"
+    "static/css/main.0953b0ff.css",
+    "static/js/main.fb9ac296.js"
   ]
 }
